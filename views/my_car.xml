@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="my_car_form_view" model="ir.ui.view">
+        <field name="name">my.car.view.form</field>
+        <field name="model">my.car</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Car Name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="car name"/></h1>
+                        <label for="owner_id"/>
+                        <h3><field name="owner_id"/></h3>
+                    </div>
+                    <group name="attribute">
+                        <group>
+                            <field name="description" />
+                            <field name="number_door" />
+                        </group>
+                        <group>
+                            <field name="color" />
+                            <field name="car_type" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="general_information" string="General Information">
+                            <group>
+                                <group>
+                                    <field name="description" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="additional_information" string="Additional Information">
+                            <group>
+                                <group>
+                                    <field name="car_image" string="Car's Image" widget="image" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="my_car_tree_view" model="ir.ui.view">
+        <field name="name">my.car.tree.view</field>
+        <field name="model">my.car</field>
+        <field name="arch" type="xml">
+            <tree string="Cars" default_order="create_date desc">
+                <field name="name" />
+                <field name="description" />
+                <field name="number_door" />
+                <field name="color" />
+                <field name="owner_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_my_car" model="ir.actions.act_window">
+        <field name="name">My Car</field>
+        <field name="res_model">my.car</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('my_car_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('my_car_form_view')})]" />
+    </record>
+    <menuitem id="menu_my_car"
+            name="My Car"
+            action="action_my_car"
+            sequence="11"
+            groups="base.group_user"/>
+</odoo>
